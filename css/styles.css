@@ -23,13 +23,29 @@ body{
     background-color: #e1e1e1;
 }
 h2{
-    font-size: 3rem;
+    font-size: 2.5rem;
     text-align: center;
     color: var(--color-secundario);
     margin: 2rem 0;
 }
 img{
     width: 100%;
+}
+a{
+    text-decoration: none;
+}
+.btn{
+    background-color: #8EA8C2;
+    padding: 5rem 0;
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+    transition: all 0.5s ease-in-out;
+    color: #151925;
+    height: 5rem;
+}
+.btn:hover{
+    background-color: #22395C;
 }
 /* HEADER */
 
@@ -67,7 +83,6 @@ img{
 .nav-bar-link{
     color: #e1e1e1;
     font-size: 2rem;
-    text-decoration: none;
     font-weight: 400;
     margin-right: 4rem;
     padding: 1rem 2rem;
@@ -111,4 +126,111 @@ img{
     padding: 1.5rem 0;
     color: #e1e1e1;
     font-size: 1.8rem;
+}
+
+/* platillo.html */
+.header.barra{
+    background-color: #22395C;
+}
+.header.barra .title{
+    font-size: 4rem;
+}
+
+
+.main{
+    max-width: 100rem;
+    width: 100%;
+    margin: 3rem auto 5rem auto;
+}
+.main .platillo{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    filter: grayscale(0);
+}
+.main .platillo:hover{
+    transform: none;
+}
+.platillo-contenedor-imagen{
+    flex: 0 0 calc(50% - 1rem);
+}
+.platillo-detalles{
+    flex: 0 0 calc(50% - 1rem);    
+}
+.platillo-detalles_nombre{
+    font-size: 2.5rem;
+    text-align: center;
+    color: var(--color-secundario);
+}
+.platillo-detalles_descripcion{
+    font-weight: 300;
+    margin: 2rem 0;
+    font-size: 1.6rem;
+    color: var(--color-secundario);
+}
+.platillo-detalles_tipo,
+.platillo-detalles_stock,
+.platillo-detalles_precio{
+    margin-bottom: 1rem;
+    font-size: 1.8rem;
+    color:var(--color-primario);
+}
+.platillo-detalles_tipo span,
+.platillo-detalles_stock span,
+.platillo-detalles_precio span{
+    color: red;
+}
+
+/* Formulario */
+.formulario{
+    border: 1px solid #22395C;
+    background-color: #fff;
+    box-shadow: 0 6px 6px #555555, 6px 0 8px #555555 ;
+    border-radius: 4px;
+    padding: 2rem;
+    width: 40%;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+}
+.formulario-campo{
+    position: relative;
+    flex: 0 0 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 3.5rem;
+}
+.formulario-campo:last-of-type{
+    margin-bottom: 0;
+}
+.formulario h2{
+    font-size: 2rem;
+    margin: 0 0 3rem 0;
+}
+.formulario-campo label{
+    font-size: 1.6rem;
+    width: 9.5rem;
+    color: var(--color-secundario);
+}
+.formulario-campo input,
+.formulario-campo textarea,
+.formulario-campo select{
+    flex: 1;
+    padding: 1.2rem 0;
+    font-size: 1.6rem;
+    border: 1px solid gray;
+}
+
+.mensaje{
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin-bottom: -2rem;
+    text-align: right;
+    font-size: 1.2rem;
+}
+.error{
+    color: red;
 }
