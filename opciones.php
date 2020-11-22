@@ -7,12 +7,12 @@
     </header>
 
     <main class="main">
-        <form id="formulario" class="formulario">
+        <form id="formulario" class="formulario" enctype="multipart/form-data">
             <h2>Registrar un nuevo platillo</h2>
 
             <div class="formulario-campo">
                 <label for="nombre">Nombre</label>
-                <input type="text" id="nombre" placeholder="Nombre del platillo">
+                <input type="text" id="nombre" name="nombre" placeholder="Nombre del platillo">
             </div>
             <div class="formulario-campo">
                 <label for="precio">Precio</label>
@@ -36,13 +36,16 @@
                 <label for="descripcion">Descripción</label>
                 <textarea name="descripcion" id="descripcion" placeholder="Decripción del platillo"></textarea>
             </div>
+            <div class="formulario-campo">
+                <label for="descripcion">Subir imagen</label>
+                <input type="file" name="imagen" id="imagen">
+            </div>
             <div class="formulario-campo submit">
-                <input type="hidden" id="accion" value="crear">
+                <input type="hidden" name="accion" id="accion" value="insertar">
                 <input class="btn" type="submit" value="Registrar platillo">
             </div>
         </form>
-    </main>
-    
-    <script src="js/scripts.js"></script>
+    </main>    
+    <script src="js/scripts.js?v=123323"></script>
 </body>
 </html>

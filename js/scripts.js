@@ -1,22 +1,40 @@
+const url = "inc/modelos/server.php";
+const formulario = document.querySelector('#formulario');
 
 eventListeners();
 
 function eventListeners(){
-    const formulario = document.querySelector('#formulario');
     formulario.addEventListener('submit',validarFormulario);
 }
 
-function validarFormulario(e){
+async function validarFormulario(e){
     e.preventDefault();
-    const nombre = document.querySelector('#nombre');
-    if(nombre.value==""){
-        nombre.style.border= '1px solid red'
-        showMessage('Error: nombre vacio',nombre.parentNode);
+    const data = new FormData(e.currentTarget);    
+    const regExpresion = "/^[0-9]*(\.?)[0-9]+$/";
+    if( data.get('nombre') === "" ||
+        data.get('tipo') === "" ||
+        data.get('descripcion') ==="" || 
+        data.get('precio') ==="" ||
+        data.get('stock') ==="" ||
+        data.get('imagen').name === undefined){
+        mostrarNotificacion('Todos los campos deben contener datos', 'error');
     }else{
-        if(nombre.parentNode.childNodes.length > 5)
-            nombre.parentNode.childNodes[5].remove(); 
-        nombre.style.border= '1px solid gray'    
+        try {
+            const response = await enviarDatos(data, url);
+            mostrarNotificacion(response.mensaje, 'success');
+        } catch (error) {
+            mostrarNotificacion(error.mensaje, 'error');
+        }        
     }
+}
+function mostrarNotificacion(mensaje, clase){
+    const div = document.createElement('div');
+    div.textContent = mensaje;
+    div.classList.add('notificacion','shadow',clase);
+    formulario.insertBefore(div, document.querySelector('h2'));
+    setTimeout(()=>{
+        div.remove();
+    }, 4000);
 }
 
 function showMessage(message, element){
@@ -24,4 +42,22 @@ function showMessage(message, element){
     divTag.textContent = message;
     divTag.classList.add('mensaje','error');
     element.appendChild(divTag);
+}
+
+function enviarDatos(data, url){
+    return new Promise((resolve,reject)=>{
+        const xhr = new XMLHttpRequest();
+        xhr.open('POST',url);
+        xhr.onload = function(){
+            if(this.status==200){
+                const response = JSON.parse(xhr.responseText);
+                if(response.respuesta==='correcto')
+                    resolve(response);
+                else
+                    reject(response)
+            }
+        }
+        xhr.send(data);
+    })
+
 }
