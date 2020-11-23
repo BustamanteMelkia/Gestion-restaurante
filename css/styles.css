@@ -84,7 +84,7 @@ a{
     color: #e1e1e1;
     font-size: 2rem;
     font-weight: 400;
-    margin-right: 4rem;
+    margin-right: 3rem;
     padding: 1rem 2rem;
     transition: all 0.5s ease-in-out; 
 }
@@ -244,4 +244,39 @@ a{
 .shadow{
     -webkit-box-shadow: 4px 6px 8px 1px rgba(0,0,0,0.54); 
     box-shadow: 4px 6px 8px 1px rgba(0,0,0,0.54);
+}
+
+/* Table */
+table{
+    width: 100%;
+}
+.table-row{
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: .8rem 0;
+    margin-bottom: 1px;
+    text-align: center;
+    background-color: #8EA8C2;
+}
+.cell{
+    width: 33.3%;
+    color: var(--color-secundario);
+    font-size: 1.6rem;
+    border-bottom: none;
+}
+.options{
+    display: flex;
+    justify-content: space-evenly;
+}
+.options a,
+.options button{
+    color: var(--primary);
+    cursor: pointer;
+    border: none;
+    background-color: unset;
+}
+i{
+    font-size: 2.5rem;
 }

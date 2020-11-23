@@ -21,7 +21,14 @@ async function validarFormulario(e){
     }else{
         try {
             const response = await enviarDatos(data, url);
+            console.log(response);
             mostrarNotificacion(response.mensaje, 'success');
+            formulario.reset();
+            if(response.accion === 'editar')
+                setTimeout(()=>{
+                    window.location.href = 'index.php';
+                },2000);
+
         } catch (error) {
             mostrarNotificacion(error.mensaje, 'error');
         }        
@@ -50,6 +57,7 @@ function enviarDatos(data, url){
         xhr.open('POST',url);
         xhr.onload = function(){
             if(this.status==200){
+                console.log(xhr.responseText);
                 const response = JSON.parse(xhr.responseText);
                 if(response.respuesta==='correcto')
                     resolve(response);

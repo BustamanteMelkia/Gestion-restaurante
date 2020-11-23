@@ -1,51 +1,42 @@
 <?php
     include('inc/templates/head.php');
 ?>
+
     <header class="header barra">
         <a href="index.php"><h1 class="title">Bus_Mel</h1></a>
         <?php include('inc/templates/nav.php'); ?>
     </header>
 
     <main class="main">
-        <form id="formulario" class="formulario" enctype="multipart/form-data">
-            <h2>Registrar un nuevo platillo</h2>
-
-            <div class="formulario-campo">
-                <label for="nombre">Nombre</label>
-                <input type="text" id="nombre" name="nombre" placeholder="Nombre del platillo">
-            </div>
-            <div class="formulario-campo">
-                <label for="precio">Precio</label>
-                <input type="text" name="precio" id="precio" placeholder="Precio del platillo" min="0" max="500">
-            </div>
-            <div class="formulario-campo">
-                <label for="stock">Stock</label>
-                <input type="text" name="stock" id="stock" placeholder="Stock del día" min="0" max="50">
-            </div>
-            <div class="formulario-campo">
-                <label for="tipo">Tipo</label>
-                <select name="tipo" id="tipo">
-                    <option value="">--Seleccione el tipo de comida--</option>
-                    <option value="2">Aperitivo</option>
-                    <option value="3">Carne</option>
-                    <option value="4">Pescado</option>
-                    <option value="5">Postre</option>
-                </select>
-            </div>
-            <div class="formulario-campo textarea">
-                <label for="descripcion">Descripción</label>
-                <textarea name="descripcion" id="descripcion" placeholder="Decripción del platillo"></textarea>
-            </div>
-            <div class="formulario-campo">
-                <label for="descripcion">Subir imagen</label>
-                <input type="file" name="imagen" id="imagen">
-            </div>
-            <div class="formulario-campo submit">
-                <input type="hidden" name="accion" id="accion" value="insertar">
-                <input class="btn" type="submit" value="Registrar platillo">
-            </div>
-        </form>
-    </main>    
-    <script src="js/scripts.js?v=123323"></script>
+        <table id="list-contacts" class="table">
+            <thead>
+                <tr class="table-row head">
+                    <th class="cell">Nombre</th>
+                    <th class="cell">Descripcion</th>
+                    <th class="cell">Options</th>
+                </tr>
+            </thead>
+            <tbody id="table-body">
+                <?php
+                    include("inc/funciones/consultas.php");
+                    $resultado = obtenerPlatillos();
+                    while($platillo = $resultado->fetch_assoc()){    ?>
+                        <tr class="table-row">
+                            <td class="cell"><?php echo $platillo['nombre']; ?></td>
+                            <td class="cell"><?php echo $platillo['descripcion'] ?></td>
+                            <td class="cell options">
+                                <a href="form.php?id=<?php echo $platillo['id_platillo'] ?>">
+                                    <i class="fas fa-user-edit"></i>
+                                </a>
+                                <button class="eliminar" data-id="<?php echo $platillo['id_platillo'] ?>">
+                                    <i class="fas fa-trash-alt"></i>
+                                </button>
+                            </td>
+                        </tr> 
+                <?php } ?>
+            </tbody>
+        </table>
+    </main>
+    
 </body>
 </html>

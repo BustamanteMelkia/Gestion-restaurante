@@ -19,7 +19,7 @@
                     <a href="platillo.php?id=<?php echo $platillo['id_comida']?>">
                         <h3 class="platillo-nombre"><?php echo $platillo['nombre']?></h3>
                         <figure class="platillo-contenedor-imagen">
-                            <img src="images/<?php echo $platillo['urlImagen']?>" alt="imagen-platillo">
+                            <img src="images/platillos/<?php echo $platillo['urlImagen']?>" alt="imagen-platillo">
                         </figure>
                     </a>
                 </article>
