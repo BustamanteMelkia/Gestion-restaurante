@@ -16,7 +16,7 @@
             $resultado = obtenerPlatillos();
             while($platillo = $resultado->fetch_assoc()){    ?>
                 <article class="platillo">
-                    <a href="platillo.php?id=<?php echo $platillo['id_comida']?>">
+                    <a href="platillo.php?id=<?php echo $platillo['id_platillo']?>">
                         <h3 class="platillo-nombre"><?php echo $platillo['nombre']?></h3>
                         <figure class="platillo-contenedor-imagen">
                             <img src="images/platillos/<?php echo $platillo['urlImagen']?>" alt="imagen-platillo">

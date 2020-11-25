@@ -19,6 +19,16 @@
             return false;
         }
     }
+    function obtenerDatosPlatillo($id){
+        include("conexion.php");
+        try{
+            $consulta= "SELECT P.id_platillo,P.nombre,P.descripcion,P.precio, P.id_tipo_platillo, T.tipo,P.stock, P.urlImagen FROM platillos P, tipo_platillo T WHERE P.id_platillo=$id AND P.id_tipo_platillo=T.id_tipo";
+            return $conn->query($consulta);
+        }catch(Exception $e){
+            echo 'Error al cargar los datos de la base de datos';
+            return false;
+        }
+    }
     function obtenerTipos(){
         include("conexion.php");
         try{

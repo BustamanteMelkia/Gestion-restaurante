@@ -1,5 +1,8 @@
 <?php
     include('inc/templates/head.php');
+    include('inc/funciones/consultas.php');
+    if(!isset($_GET['id']))
+        header('location: index.php');
 ?>
 
     <header class="header barra">
@@ -8,17 +11,21 @@
     </header>
 
     <main class="main">
+        <?php 
+            $id = filter_var($_GET['id'], FILTER_SANITIZE_NUMBER_INT);
+            $resultado = obtenerDatosPlatillo($id);
+            $platillo = $resultado->fetch_assoc();
+        ?>
         <article class="platillo">
             <figure class="platillo-contenedor-imagen">
-                <img src="images/platillo1.jpg" alt="Imagen platillo">
+                <img src="images/platillos/platillo1.jpg" alt="Imagen platillo">
             </figure>
             <div class="platillo-detalles">
-                <h3 class="platillo-detalles_nombre">Mole poblano</h3>
-                <p class="platillo-detalles_descripcion">Lorem ipsum dolor sit amet consectetur adipisicing elit. Alias provident et temporibus debitis laudantium. Quasi ut sequi hic veniam laudantium beatae enim. Harum, officiis! Earum aliquid molestias repellendus minima ullam.  Quasi ut sequi hic veniam laudantium beatae enim. Harum, officiis! Earum aliquid molestias repellendus minima ullam
-                </p>
-                <h4 class="platillo-detalles_tipo">Tipo: <span>Aperitivo</span></h4>
-                <h4 class="platillo-detalles_stock">Disponibilidad: <span>5</span></h4>
-                <h4 class="platillo-detalles_precio">Precio: <span>$5</span></h4>
+                <h3 class="platillo-detalles_nombre"><?php echo $platillo['nombre']; ?></h3>
+                <p class="platillo-detalles_descripcion"><?php echo $platillo['descripcion']; ?></p>
+                <h4 class="platillo-detalles_tipo">Tipo: <span><?php echo $platillo['tipo']; ?></span></h4>
+                <h4 class="platillo-detalles_stock">Disponibilidad: <span><?php echo $platillo['stock']; ?></span></h4>
+                <h4 class="platillo-detalles_precio">Precio: <span><?php echo $platillo['precio']; ?></span></h4>
             </div>
         </article>
     </main>
