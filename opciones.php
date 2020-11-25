@@ -29,7 +29,7 @@
                                     <i class="fas fa-user-edit"></i>
                                 </a>
                                 <button class="eliminar" data-id="<?php echo $platillo['id_platillo'] ?>">
-                                    <i class="fas fa-trash-alt"></i>
+                                    <i class="fas fa-trash-alt icon-delete"></i>
                                 </button>
                             </td>
                         </tr> 
@@ -37,6 +37,7 @@
             </tbody>
         </table>
     </main>
-    
+    <script src="js/scripts.js?v=1"></script>
+
 </body>
 </html>

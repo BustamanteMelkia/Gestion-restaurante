@@ -1,10 +1,15 @@
 const url = "inc/modelos/server.php";
-const formulario = document.querySelector('#formulario');
 
 eventListeners();
 
 function eventListeners(){
-    formulario.addEventListener('submit',validarFormulario);
+    if(window.location.pathname.split('/')[2]==='form.php'){
+        var formulario = document.querySelector('#formulario');
+        formulario.addEventListener('submit',validarFormulario);
+    }else if(window.location.pathname.split('/')[2]==='opciones.php'){
+        const tableBody = document.getElementById('table-body');
+        tableBody.addEventListener('click', onClickEliminar);
+    }
 }
 
 async function validarFormulario(e){
@@ -38,7 +43,9 @@ function mostrarNotificacion(mensaje, clase){
     const div = document.createElement('div');
     div.textContent = mensaje;
     div.classList.add('notificacion','shadow',clase);
-    formulario.insertBefore(div, document.querySelector('h2'));
+    const navbar = document.querySelector('.nav-bar');
+    navbar.insertBefore(div, document.querySelector('.nav-bar a'));
+    // formulario.insertBefore(div, document.querySelector('h2'));
     setTimeout(()=>{
         div.remove();
     }, 4000);
@@ -67,5 +74,40 @@ function enviarDatos(data, url){
         }
         xhr.send(data);
     })
+}
 
+// La eliminación de un platillo se realiza mediante la delegación de eventos
+async function onClickEliminar(e){
+    // Click sobre el icono
+    if(e.target.classList.contains('icon-delete')){
+        const id=e.target.parentNode.getAttribute('data-id');
+        const confirmacion = confirm('¿Estás seguro de eliminar el platillo?');
+        if(confirmacion){
+            try {
+                const response = await eliminarPlatillo(url, id);
+                e.target.parentNode.parentNode.parentNode.remove();
+                mostrarNotificacion(response.mensaje,'success');   
+            } catch (error) {
+                mostrarNotificacion(error.mensaje,'error');   
+            }
+        }
+    }
+}
+function eliminarPlatillo(url, id){
+    return new Promise((resolve, reject)=>{
+        const xhr = new XMLHttpRequest();
+        url= url+'?id='+id+'&accion=eliminar';
+        xhr.open('GET',url);
+        xhr.onload = function(){
+            if(this.status === 200){
+                const respuesta = JSON.parse(xhr.responseText);
+                if(respuesta.respuesta ==='correcto'){
+                    resolve(respuesta);
+                }else{
+                    reject(respuesta)
+                }
+            }
+        }
+        xhr.send();
+    })
 }

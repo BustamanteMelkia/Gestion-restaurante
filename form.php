@@ -104,6 +104,6 @@
             </div>
         </form>
     </main>    
-    <script src="js/scripts.js?v=1233233"></script>
+    <script src="js/scripts.js?v=1"></script>
 </body>
 </html>

@@ -21,6 +21,11 @@
             );
         }
     }
+    if(isset($_GET['accion'])){
+        if($_GET['accion'] == 'eliminar'){
+            echo eliminarPlatillo($_GET['id']);
+        }
+    }
 
     function cargarImagen(){
         $rutaDestino = "../../images/platillos/";
@@ -78,6 +83,26 @@
         }
         $stm->close();
         $conn->close();
+        return json_encode($respuesta);
+    }
+    function eliminarPlatillo($id){
+        include('../funciones/conexion.php');
+        try {
+            $stm = $conn->prepare("DELETE FROM platillos WHERE id_platillo=?");
+            $stm->bind_param("i",$id);
+            $stm->execute();
+            $respuesta = array(
+                'respuesta'=>'correcto',
+                'mensaje'=>'Platillo eliminado correctamente',
+                'id'=>$id
+            );
+        } catch (Exception $e) {
+            $respuesta = array(
+                'respuesta'=>'error',
+                'mensaje'=>$e.getMessage(),
+                'id'=>$id
+            );
+        }
         return json_encode($respuesta);
     }
 ?>
