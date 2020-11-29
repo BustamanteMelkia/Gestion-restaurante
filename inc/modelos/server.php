@@ -1,29 +1,39 @@
 <?php
-    if(isset($_POST['accion'])){
-        if(cargarImagen()){
-            $nombre = $_POST['nombre'];
-            $descripcion = $_POST['descripcion'];
-            $precio = $_POST['precio'];
-            $stock = $_POST['stock'];
-            $tipo = $_POST['tipo'];
-            $imagen = basename($_FILES["imagen"]["name"]);
-
-            if($_POST['accion']=='insertar'){
-                echo insertarPlatillo($nombre, $descripcion, $precio, $stock, $tipo, $imagen);
-            }else if($_POST['accion']=='editar'){
-                $id = filter_var($_POST['id'], FILTER_SANITIZE_NUMBER_INT);
-                echo actualizarPlatillo($id, $nombre, $descripcion, $precio, $stock, $tipo, $imagen);
+    handlerRequest();
+    function handlerRequest(){
+        if(isset($_POST['accion'])){
+            if(cargarImagen()){
+                $nombre = $_POST['nombre'];
+                $descripcion = $_POST['descripcion'];
+                $precio = $_POST['precio'];
+                $stock = $_POST['stock'];
+                $tipo = $_POST['tipo'];
+                $imagen = basename($_FILES["imagen"]["name"]);
+    
+                if($_POST['accion']=='insertar'){
+                    echo insertarPlatillo($nombre, $descripcion, $precio, $stock, $tipo, $imagen);
+                }else if($_POST['accion']=='editar'){
+                    $id = filter_var($_POST['id'], FILTER_SANITIZE_NUMBER_INT);
+                    echo actualizarPlatillo($id, $nombre, $descripcion, $precio, $stock, $tipo, $imagen);
+                }
+            }else{
+                $respuesta = array(
+                    "respuesta"=>"error",
+                    "mensaje"=>"Error al cargar la imagen"
+                );
             }
-        }else{
-            $respuesta = array(
-                "respuesta"=>"error",
-                "mensaje"=>"Error al cargar la imagen"
-            );
         }
-    }
-    if(isset($_GET['accion'])){
-        if($_GET['accion'] == 'eliminar'){
-            echo eliminarPlatillo($_GET['id']);
+        if(isset($_POST['pedido'])){
+            $id_platillo = $_POST['id_platillo'];
+            $numPlatillos = $_POST['numPlatillos'];
+            $total = $_POST['total'];
+            $fecha = $_POST['fecha'];
+            echo realizarPedido($id_platillo, $numPlatillos, $total, $fecha);
+        }
+        if(isset($_GET['accion'])){
+            if($_GET['accion'] == 'eliminar'){
+                echo eliminarPlatillo($_GET['id']);
+            }
         }
     }
 
@@ -103,6 +113,34 @@
                 'id'=>$id
             );
         }
+        return json_encode($respuesta);
+    }
+
+    function realizarPedido($id_platillo, $numPlatillos, $total, $fecha){
+        include("../funciones/conexion.php");
+        // sentencia preparada
+        $stm = $conn->prepare("INSERT INTO pedidos (fecha,total,id_platillo_fk) VALUES (?, ?, ?)");
+        // Enlazar los parámetros con sus respectivos valores
+        $stm->bind_param("sdi",$fecha,$total,$id_platillo);
+        $stm->execute();
+        if($stm->affected_rows>0){
+            $query = "UPDATE platillos SET stock=stock-$numPlatillos WHERE id_platillo=$id_platillo";
+            if($conn->query($query)){
+                $respuesta = array(
+                    'respuesta'=>'correcto',
+                    'mensaje'=>'pedido realizado correctamente',
+                    'total'=>'$total'
+                );
+            }
+        }else{
+            $respuesta = array(
+                'respuesta'=>'error',
+                'mensaje'=>'No se pudo realizar el pedido',
+                'total'=>'$total'
+            );
+        }
+        $stm->close();
+        $conn->close();
         return json_encode($respuesta);
     }
 ?>

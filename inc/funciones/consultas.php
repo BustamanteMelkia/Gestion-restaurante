@@ -68,8 +68,14 @@
     function getTotalDia($fecha){
         include("conexion.php");
         try{
-            $consulta= "SELECT SUM(total) FROM pedidos WHERE fecha=$fecha";
-            return $conn->query($consulta);
+            $stm=$conn->prepare("SELECT SUM(total) as ventaDelDia FROM pedidos WHERE fecha=?");
+            $stm->bind_param("s",$fecha);
+            $stm->execute();
+            $result = $stm->get_result();
+            $fecha = $result->fetch_assoc();
+            $stm->close();
+            $conn->close();
+            return $fecha['ventaDelDia'];
         }catch(Exception $e){
             echo 'Error al cargar los datos de la base de datos';
             return false;

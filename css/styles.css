@@ -1,14 +1,12 @@
 :root {
     --color-primario: #151925;
     --color-secundario: #22395C;
-
 }
 
 html {
     box-sizing: border-box;
     font-size: 10px;
 }
-
 *,
 *:before,
 *:after {
@@ -35,14 +33,14 @@ a{
     text-decoration: none;
 }
 .btn{
+    width: 25%;
     background-color: #8EA8C2;
-    padding: 5rem 0;
+    padding: 1.5rem 0;
     cursor: pointer;
     border: none;
     border-radius: 5px;
     transition: all 0.5s ease-in-out;
     color: #151925;
-    height: 5rem;
 }
 .btn:hover{
     background-color: #22395C;
@@ -107,6 +105,7 @@ a{
 .platillo{
     position: relative;
     flex: 0 0 calc(33.3% - 1rem);
+    /* max-height: 25rem; */
     margin-bottom: 2rem ;
     filter: grayscale(0.5);
     overflow: hidden;
@@ -126,6 +125,15 @@ a{
     padding: 1.5rem 0;
     color: #e1e1e1;
     font-size: 1.8rem;
+}
+.platillo-contenedor-imagen{
+    width: 100%;
+    height: 250px;
+}
+.platillo-contenedor-imagen img{
+    width: inherit;
+    height: inherit;
+    object-fit: cover; 
 }
 
 /* platillo.html */
@@ -151,8 +159,9 @@ a{
 .main .platillo:hover{
     transform: none;
 }
-.platillo-contenedor-imagen{
+.main .platillo-contenedor-imagen{
     flex: 0 0 calc(50% - 1rem);
+    height: 30rem;
 }
 .platillo-detalles{
     flex: 0 0 calc(50% - 1rem);    
@@ -232,6 +241,7 @@ a{
     padding: 0.5rem 2rem;
     border-radius: 5px;
     transition: all 0.5s ease-in-out;
+    z-index: 20;
 }
 .error{
     background-color: rgb(163, 0, 33);
@@ -279,4 +289,55 @@ table{
 }
 i{
     font-size: 2.5rem;
+}
+
+/**Pedidos**/
+.pedido-contenedor{
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2;
+    background-color: rgba(0, 0, 0, 0.6);
+    display: none;
+}
+
+.pedido{
+    background-color: var(--color-secundario);
+    padding: 1.5rem 3rem;
+}
+.pedido .formulario-campo{
+    margin-bottom: 0;
+}
+.pedido .formulario-campo label{
+    color: #e1e1e1;
+    width: 7.5rem;
+}
+.importe{
+    display: block;
+    margin: 2rem 0;
+    text-align: center;
+    font-size: 2.5rem;
+    color:  #8EA8C2;
+    font-weight: 300;
+}
+.importe span{
+    font-weight: 700;
+    font-size: 2.7rem;
+}
+.pedido-options{
+    display: flex;
+    justify-content: space-between;
+}
+.pedido-options .btn{
+    flex: 0 0 calc(50% - 1rem);
+    padding: 0.8rem 0;
+}
+
+.pedido-options .btn:hover{
+    background-color: #e1e1e1;
 }

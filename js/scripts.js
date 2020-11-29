@@ -9,6 +9,71 @@ function eventListeners(){
     }else if(window.location.pathname.split('/')[2]==='opciones.php'){
         const tableBody = document.getElementById('table-body');
         tableBody.addEventListener('click', onClickEliminar);
+    }else if(window.location.pathname.split('/')[2]==='platillo.php'){
+        const pedido = document.getElementById('pedido');
+        pedido.addEventListener('click', onClickPedido);
+    }
+}
+function onClickPedido(){
+    const stock = document.querySelector('.platillo-detalles_stock span');
+    if(stock.textContent>0){
+        const cancelar = document.getElementById('cancelar');
+        const pagar = document.getElementById('pagar');
+        const cantidad = document.getElementById('cantidad');
+        cantidad.value = '';
+    
+        document.querySelector('.pedido-contenedor').style.display= 'flex';
+        cantidad.addEventListener('input', validarCantidad);
+        cancelar.addEventListener('click', onClickCancelar);
+        pagar.addEventListener('click', onClickPagar);
+    }else
+        mostrarNotificacion('Platillo no disponible','error')
+
+}
+
+function onClickCancelar(){
+    document.querySelector('.pedido-contenedor').style.display='none';
+}
+
+async function onClickPagar(){
+    const data = new FormData();
+    const fecha = new Date().getFullYear()+'-'+(new Date().getMonth()+1)+'-'+new Date().getDate();
+    const precio = document.getElementById('precio').value; 
+    const stock = document.querySelector('.platillo-detalles_stock span');
+    const numPlatillos = document.getElementById('cantidad').value;
+    if(numPlatillos <= stock.textContent){
+        data.append('id_platillo',this.getAttribute('data-id'));
+        data.append('total', precio*numPlatillos);
+        data.append('numPlatillos',numPlatillos);
+        data.append('pedido','true');
+        data.append('fecha',fecha);
+        try {
+            const response = await enviarDatos(data, url);
+            mostrarNotificacion(response.mensaje, 'success');
+            actualizarStock(numPlatillos)
+        } catch (error) {
+            mostrarNotificacion(response.mensaje, 'error');
+        }
+    }else
+        mostrarNotificacion('No es posible entregar todos los platillos','error');
+    document.querySelector('.pedido-contenedor').style.display='none';
+}
+// Funcion que decrementa el número de platillos disponibles.
+function actualizarStock(numPlatillos){
+    const stock = document.querySelector('.platillo-detalles_stock span');
+    stock.innerHTML = stock.textContent - numPlatillos;
+    if(stock < 1)
+        document.getElementById('pedido').style.visibility="hidden";
+}
+
+function validarCantidad(){
+    const importe = document.querySelector('.importe span');
+    const precio = document.getElementById('precio').value; 
+    if(this.value == ""){
+        importe.innerHTML = `$0.0`
+        mostrarNotificacion('Campo vacio', 'error');
+    }else{
+        importe.innerHTML = `$${this.value * precio}`
     }
 }
 
